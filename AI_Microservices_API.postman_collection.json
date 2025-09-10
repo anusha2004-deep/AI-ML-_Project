@@ -1,0 +1,334 @@
+{
+  "info": {
+    "name": "AI Microservices API",
+    "description": "Complete API collection for AI Microservices with LangChain integration",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "Root - API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Get API information and available endpoints"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check API health status and provider availability"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Text Summarization",
+      "item": [
+        {
+          "name": "Summarize Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Artificial Intelligence (AI) is a broad field of computer science that aims to create systems capable of performing tasks that typically require human intelligence. These tasks include learning, reasoning, problem-solving, perception, and language understanding. AI has evolved significantly since its inception in the 1950s, with major breakthroughs in machine learning, deep learning, and neural networks. Today, AI applications are ubiquitous, from virtual assistants and recommendation systems to autonomous vehicles and medical diagnosis tools. The field continues to advance rapidly, with ongoing research in areas such as natural language processing, computer vision, and robotics. However, the development of AI also raises important ethical and societal questions about job displacement, privacy, bias, and the potential risks of artificial general intelligence.\",\n  \"max_length\": 100,\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/summarize",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "summarize"]
+            },
+            "description": "Summarize provided text using specified LLM provider"
+          }
+        },
+        {
+          "name": "Get Available Providers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/summarize/providers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "summarize", "providers"]
+            },
+            "description": "Get list of available LLM providers for summarization"
+          }
+        },
+        {
+          "name": "Batch Summarization",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texts\": [\n    \"Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed.\",\n    \"Deep learning uses artificial neural networks with multiple layers to model and understand complex patterns in data.\"\n  ],\n  \"max_length\": 50,\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/summarize/batch",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "summarize", "batch"]
+            },
+            "description": "Summarize multiple texts in a single request"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Document Q&A",
+      "item": [
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "PDF, DOCX, or TXT file to upload"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/upload-document",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "upload-document"]
+            },
+            "description": "Upload a document for Q&A processing. Supports PDF, DOCX, and TXT files."
+          }
+        },
+        {
+          "name": "Ask Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What is the main topic of the document?\",\n  \"document_ids\": [],\n  \"context\": \"\",\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/qa",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "qa"]
+            },
+            "description": "Ask a question about uploaded documents or with custom context"
+          }
+        },
+        {
+          "name": "List Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents"]
+            },
+            "description": "Get list of all uploaded documents"
+          }
+        },
+        {
+          "name": "Get Document Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/{{document_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", "{{document_id}}"]
+            },
+            "description": "Get information about a specific document"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/documents/{{document_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "documents", "{{document_id}}"]
+            },
+            "description": "Delete a document and its associated data"
+          }
+        },
+        {
+          "name": "Batch Q&A",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"questions\": [\n    \"What is the main topic?\",\n    \"What are the key points?\",\n    \"What conclusions are drawn?\"\n  ],\n  \"document_ids\": [],\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/qa/batch",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "qa", "batch"]
+            },
+            "description": "Ask multiple questions in a single request"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Learning Path",
+      "item": [
+        {
+          "name": "Generate Learning Path",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"goals\": [\n    {\n      \"topic\": \"Python Programming\",\n      \"proficiency_level\": \"beginner\",\n      \"time_commitment\": \"10 hours/week\"\n    },\n    {\n      \"topic\": \"Machine Learning\",\n      \"proficiency_level\": \"beginner\",\n      \"time_commitment\": \"8 hours/week\"\n    }\n  ],\n  \"background\": \"I have basic computer knowledge but no programming experience\",\n  \"preferred_learning_style\": \"visual\",\n  \"duration_weeks\": 12,\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/learning-path",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "learning-path"]
+            },
+            "description": "Generate a personalized learning path based on goals and preferences"
+          }
+        },
+        {
+          "name": "Get Learning Path Templates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/learning-path/templates",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "learning-path", "templates"]
+            },
+            "description": "Get predefined learning path templates for common topics"
+          }
+        },
+        {
+          "name": "Evaluate Learning Progress",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed_weeks\": 6,\n  \"total_weeks\": 12,\n  \"topics_mastered\": [\n    \"Python basics\",\n    \"Data structures\",\n    \"Functions\"\n  ],\n  \"current_challenges\": [\n    \"Object-oriented programming\",\n    \"Understanding classes\"\n  ],\n  \"provider\": \"ollama\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/learning-path/evaluate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "learning-path", "evaluate"]
+            },
+            "description": "Evaluate learning progress and get recommendations"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
